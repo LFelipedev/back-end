@@ -5,7 +5,11 @@ const Template = require("../models/templateModel");
 
 exports.listarTemplates = async (req, res) => {
     try {
-        const templates = await prisma.template.findMany();
+        const templates = await prisma.template.findMany({
+            include: {
+                fields: true 
+            }
+        });
         res.json(templates);
     } catch (e) {
         console.error("Erro ao listar templates:", e);
@@ -15,17 +19,21 @@ exports.listarTemplates = async (req, res) => {
 
 exports.criarTemplate = async (req, res) => {
     try {
-        const { name, description, x, y, width, height } = req.body;
-
+        const { name, description, fields } = req.body;
 
         const novoTemplate = await prisma.template.create({
             data: {
                 name,
                 description,
-                x,
-                y,
-                width,
-                height   
+                fields: {
+                    create: fields.map(i => ({
+                        name: i.name,
+                        x: Number(i.x),
+                        y: Number(i.y),
+                        width: Number(i.width),
+                        height: Number(i.height)
+                    }))
+                } 
             }
         });
 
