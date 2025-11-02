@@ -41,8 +41,18 @@ exports.obterTemplatePorId = async (req, res) => {
 
 exports.criarTemplate = async (req, res) => {
     try {
-        const { name, description, fields } = req.body;
+        const { name, description } = req.body;
         const file = req.file;
+        let fields = req.body.fields;
+
+        if (typeof fields === 'string') {
+            fields = JSON.parse(fields);
+        }
+
+        console.log("FILE RECEBIDO:", file);
+        console.log("FIELDS PARSED:", fields);
+
+
 
         const novoTemplate = await prisma.template.create({
             data: {
