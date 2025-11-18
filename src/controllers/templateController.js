@@ -52,12 +52,13 @@ exports.criarTemplate = async (req, res) => {
         console.log("FILE RECEBIDO:", file);
         console.log("FIELDS PARSED:", fields);
 
-
+        const baseUrl = process.env.BASE_URL || `https://${req.get('host')}`;
+        const imageUrl = `${baseUrl}/uploads/${file.filename}`;
 
         const novoTemplate = await prisma.template.create({
             data: {
                 name,
-                imagePath: file.filename,
+                imagePath: imageUrl,
                 description,
                 fields: {
                     create: fields.map(i => ({

@@ -4,7 +4,10 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: ['https://front-end-one-nu-88.vercel.app', 'http://localhost:3000'],
+    credentials: true
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
