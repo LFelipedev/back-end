@@ -15,6 +15,6 @@ const templateRoutes = require("./routes/templateRoutes");
 
 app.use("/templates", templateRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server na porta: ${PORT}`);
 });
